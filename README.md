@@ -1,10 +1,13 @@
-# request-caching
+Eu is a wrapper around [request](https://github.com/mikeal/request) which can cache
+`HTTP GET` requests based on response headers - just like a browser does.
 
-An HTTP client with caching, built on top of [request](https://github.com/mikeal/request).
+It's useful for consuming data, especially from HTTP/REST APIs with proper caching
+headers set.
+
+"Eu" means "gotten" in Fench.
 
 ## Features
 
-* Drop-in replacement for `request`.
 * Redis or In-memory (LRU) storage. Easy to build new storage backends.
 * Supports both [public and private caching](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1).
 * Takes advantage of the `ETag` response header by using the `If-None-Match` request header.
@@ -16,15 +19,22 @@ An HTTP client with caching, built on top of [request](https://github.com/mikeal
 
 Below are some common use cases:
 
+### Create an instance of RequestCaching
+
+```javascript
+var request = require('request');
+var eu = new Eu(request);
+```
+
 ### In-memory cache
 
 ```javascript
 var LRU = require('lru-cache');
-var store = new request.MemoryStore(new LRU());
-var cache = new request.Cache(store);
+var store = new Eu.MemoryStore(new LRU());
+var cache = new Eu.Cache(store);
 
-request('http://some.url', {cache: cache}, function(err, res, body) {
-  
+requestCaching.get('http://some.url', {cache: cache}, function(err, res, body) {
+
 });
 ```
 
@@ -32,21 +42,25 @@ request('http://some.url', {cache: cache}, function(err, res, body) {
 
 ```javascript
 var redis = require('redis').createClient();
-var store = new request.RedisStore(redis);
-var cache = new request.Cache(store);
+var store = new Eu.RedisStore(redis);
+var cache = new Eu.Cache(store);
 
-request('http://some.url', {cache: cache}, function(err, res, body) {
-  
+requestCaching.get('http://some.url', {cache: cache}, function(err, res, body) {
+
 });
 ```
 
 ### Cache flushing
 
-You should always provide a `prefix` the key with the name of your app (or API). When you invoke `Cache.flush`, it will flush *all* keys starting with that prefix. If you don't specify a prefix, you'll flush the entire cache.
+You should always provide a `prefix` which prefixes the key with the name of
+your app (or API). When you invoke `Cache.flush`, it will flush *all* keys
+starting with that prefix. If you don't specify a prefix, you'll flush the entire cache.
 
 ```javascript
 var prefix = 'yourapp:';
 var cache = new request.Cache(store, prefix);
+
+cache.flush(cb); // only the 'yourapp:*' keys get flushed
 ```
 
 ### Private caching
@@ -54,7 +68,8 @@ var cache = new request.Cache(store, prefix);
 Some HTTP responses should be cached privately - i.e. they shouldn't be available for other users.
 This is the case when the server responds with `Cache-Control: private`.
 
-To handle this you should construct the `Cache` with a `privateSuffix` String argument. This suffix will be appended to the key when caching a private response.
+To handle this you should construct the `Cache` with a `privateSuffix` String argument.
+This suffix will be appended to the key when caching a private response.
 
 ```javascript
 var prefix = 'yourapp:';
@@ -62,8 +77,8 @@ var unique = req.currentUser._id; // or req.cookies['connect.sid']
 var privateSuffix = 'private:' + unique;
 var cache = new request.Cache(store, prefix, privateSuffix);
 
-request('http://some.url', {cache: cache}, function(err, res, body) {
-  
+requestCaching.get('http://some.url', {cache: cache}, function(err, res, body) {
+
 });
 ```
 
@@ -81,7 +96,7 @@ function myTtl(ttl) {
 var cache = new request.Cache(store, null, null, myTtl);
 
 request('http://some.url', {cache: cache}, function(err, res, body) {
-  
+
 });
 ```
 

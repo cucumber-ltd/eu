@@ -1,20 +1,18 @@
 var assert = require('assert');
-var Cache = require('../lib/cache');
+var Eu = require('..');
 
 var redis = require('redis').createClient();
-var RedisStore = require('../lib/redis_store');
-var redisStore = new RedisStore(redis);
+var redisStore = new Eu.RedisStore(redis);
 
 var LRU = require('lru-cache');
-var MemoryStore = require('../lib/memory_store');
-var memoryStore = new MemoryStore(new LRU());
+var memoryStore = new Eu.MemoryStore(new LRU());
 
 [redisStore, memoryStore].forEach(function (store) {
   describe('Cache with ' + store.constructor.name, function () {
     beforeEach(store.flushAll);
 
     it('Keys off uri when no prefix is provided', function (cb) {
-      var cache = new Cache(store);
+      var cache = new Eu.Cache(store);
       cache.set('my-uri', false, 'my-value', 1000, function (err) {
         if (err) return cb(err);
         store.get('my-uri', function (err, value) {
@@ -26,7 +24,7 @@ var memoryStore = new MemoryStore(new LRU());
     });
 
     it('Requires privateSuffix for private caching', function (cb) {
-      var cache = new Cache(store);
+      var cache = new Eu.Cache(store);
       cache.set('my-uri', true, 'my-value', 1000, function (err) {
         if (!err) return cb(new Error('Should fail'));
         assert.equal(err.message, 'Cannot cache privately without a privateSuffix');
@@ -35,7 +33,7 @@ var memoryStore = new MemoryStore(new LRU());
     });
 
     it('Expires cached keys after TTL', function (cb) {
-      var cache = new Cache(store);
+      var cache = new Eu.Cache(store);
       cache.set('my-uri', false, 'my-value', 10, function (err) {
         if (err) return cb(err);
         cache.get('my-uri', function (err, value) {
@@ -57,7 +55,7 @@ var memoryStore = new MemoryStore(new LRU());
         return 1;
       }
 
-      var cache = new Cache(store, null, null, oneMillisecond);
+      var cache = new Eu.Cache(store, null, null, oneMillisecond);
       cache.set('my-uri', false, 'my-value', 100, function (err) {
         if (err) return cb(err);
         setTimeout(function () {
@@ -71,8 +69,8 @@ var memoryStore = new MemoryStore(new LRU());
     });
 
     it('Deletes Redis keys by match', function (cb) {
-      var fooCache = new Cache(store, 'foo:');
-      var barCache = new Cache(store, 'bar:');
+      var fooCache = new Eu.Cache(store, 'foo:');
+      var barCache = new Eu.Cache(store, 'bar:');
 
       fooCache.set('KEY', false, 'FOO', 10000, function (err) {
         if (err) return cb(err);
