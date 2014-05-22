@@ -19,6 +19,9 @@
   ],
   "author": "Cucumber Limited",
   "license": "MIT/X11",
+  "dependencies": {
+    "request": "2.36.0"
+  },
   "devDependencies": {
     "request": "2.36.0",
     "mocha": "~1.19.0",

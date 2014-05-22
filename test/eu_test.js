@@ -1,6 +1,5 @@
 var assert = require('assert');
 var http = require('http');
-var request = require('request');
 var Eu = require('..');
 
 var LRU = require('lru-cache');
@@ -24,7 +23,7 @@ var redisStore = new Eu.RedisStore(redis);
         res.writeHead(200, { 'Date': date, 'Cache-Control': 'max-age=300' });
         res.end('Cachifiable!');
       }).listen(++port, function () {
-        var eu = new Eu(paulsCache, request);
+        var eu = new Eu(paulsCache);
         eu.get('http://localhost:' + port, function (err, res) {
           if (err) return cb(err);
           lisasCache.get('http://localhost:' + port, function (err, val) {
@@ -42,7 +41,7 @@ var redisStore = new Eu.RedisStore(redis);
         res.writeHead(200, { 'Date': date, 'Cache-Control': 'private, max-age=300' });
         res.end('Cachifiable!');
       }).listen(++port, function () {
-        var eu = new Eu(paulsCache, request);
+        var eu = new Eu(paulsCache);
         eu.get('http://localhost:' + port, {}, function (err, res) {
           if (err) return cb(err);
           paulsCache.get('http://localhost:' + port, function (err, val) {
@@ -64,7 +63,7 @@ var redisStore = new Eu.RedisStore(redis);
         res.writeHead(200, { 'Date': date.toUTCString(), 'Cache-Control': 'max-age=300' });
         res.end('Cachifiable!');
       }).listen(++port, function () {
-        var eu = new Eu(paulsCache, request);
+        var eu = new Eu(paulsCache);
         eu.get('http://localhost:' + port, function (err, res) {
           if (err) return cb(err);
           s.close(function (err) {
@@ -86,7 +85,7 @@ var redisStore = new Eu.RedisStore(redis);
         res.writeHead(200, { 'Date': date.toUTCString(), 'Expires': expires.toUTCString() });
         res.end('Cachifiable!');
       }).listen(++port, function () {
-        var eu = new Eu(paulsCache, request);
+        var eu = new Eu(paulsCache);
         eu.get('http://localhost:' + port, {}, function (err, res) {
           if (err) return cb(err);
           paulsCache.get('http://localhost:' + port, function (err, val) {
@@ -105,7 +104,7 @@ var redisStore = new Eu.RedisStore(redis);
         res.writeHead(404, { 'Date': date.toUTCString(), 'Expires': expires.toUTCString() });
         res.end('Not Cachifiable!');
       }).listen(++port, function () {
-        var eu = new Eu(paulsCache, request);
+        var eu = new Eu(paulsCache);
         eu.get('http://localhost:' + port, {}, function (err, res) {
           if (err) return cb(err);
           paulsCache.get('http://localhost:' + port, function (err, val) {
@@ -132,7 +131,7 @@ var redisStore = new Eu.RedisStore(redis);
           res.end('Cachifiable!');
         }
       }).listen(++port, function () {
-        var eu = new Eu(paulsCache, request);
+        var eu = new Eu(paulsCache);
         eu.get('http://localhost:' + port, {}, function (err, res, body) {
           if (err) return cb(err);
           assert.equal(three_o_four, false);
@@ -163,7 +162,7 @@ var redisStore = new Eu.RedisStore(redis);
           res.end('Cachifiable!');
         }
       }).listen(++port, function () {
-        var eu = new Eu(paulsCache, request);
+        var eu = new Eu(paulsCache);
         eu.get('http://localhost:' + port, {}, function (err, res, body) {
           if (err) return cb(err);
           assert.equal(three_o_four, false);

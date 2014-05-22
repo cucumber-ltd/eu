@@ -1,5 +1,4 @@
 var http = require('http');
-var request = require('request');
 var Eu = require('.');
 var LRU = require('lru-cache');
 var store = new Eu.MemoryStore(new LRU());
@@ -12,7 +11,7 @@ http.createServer(function(req, res) {
   res.end('Hello ' + date);
 }).listen(3000, function(err) {
 
-  var eu = new Eu(cache, request);
+  var eu = new Eu(cache);
   setInterval(function() {
     eu.get('http://localhost:3000', function(err, res, body) {
       console.log("Client: " + body);

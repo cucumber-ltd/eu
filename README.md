@@ -24,9 +24,18 @@ Below are some common use cases:
 ### Create an instance of RequestCaching
 
 ```javascript
-var request = require('request');
-var eu = new Eu(request);
+var eu = new Eu(cache);
+
+eu.get('http://some.url', function(err, res, body) {
+});
+
+# Or pass in request options:
+eu.get('http://some.url', {json: true}, function(err, res, body) {
+});
+
 ```
+
+You can choose between 2 caches:
 
 ### In-memory cache
 
@@ -34,10 +43,6 @@ var eu = new Eu(request);
 var LRU = require('lru-cache');
 var store = new Eu.MemoryStore(new LRU());
 var cache = new Eu.Cache(store);
-
-requestCaching.get('http://some.url', {cache: cache}, function(err, res, body) {
-
-});
 ```
 
 ### Redis cache
@@ -46,17 +51,13 @@ requestCaching.get('http://some.url', {cache: cache}, function(err, res, body) {
 var redis = require('redis').createClient();
 var store = new Eu.RedisStore(redis);
 var cache = new Eu.Cache(store);
-
-requestCaching.get('http://some.url', {cache: cache}, function(err, res, body) {
-
-});
 ```
 
 ### Cache flushing
 
 You should always provide a `prefix` which prefixes the key with the name of
-your app (or API). When you invoke `Cache.flush`, it will flush *all* keys
-starting with that prefix. If you don't specify a prefix, you'll flush the entire cache.
+your app (or API). When you invoke `Cache.flush`, it will *only* flush the keys
+starting with that prefix. If you don't specify a prefix, you'll flush the *entire* cache.
 
 ```javascript
 var prefix = 'yourapp:';
@@ -74,16 +75,10 @@ To handle this you should construct the `Cache` with a `privateSuffix` String ar
 This suffix will be appended to the key when caching a private response.
 
 ```javascript
-var request = require('request');
 var prefix = 'yourapp:';
 var unique = req.currentUser._id; // or req.cookies['connect.sid']
 var privateSuffix = 'private:' + unique;
 var cache = new Eu.Cache(store, prefix, privateSuffix);
-var eu = new Eu(cache, request);
-
-eu.get('http://some.url', function(err, res, body) {
-
-});
 ```
 
 You will get an error if no `privateSuffix` was provided when caching a private response.
@@ -99,11 +94,6 @@ function myTtl(ttl) {
 }
 
 var cache = new Eu.Cache(store, null, null, myTtl);
-var eu = new Eu(cache, request);
-
-eu.get('http://some.url', function(err, res, body) {
-
-});
 ```
 
 ## How it works
