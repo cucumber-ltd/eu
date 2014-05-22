@@ -17,7 +17,7 @@
     "client",
     "http"
   ],
-  "author": "Kevin Swiber",
+  "author": "Cucumber Limited",
   "license": "MIT/X11",
   "devDependencies": {
     "request": "2.36.0",

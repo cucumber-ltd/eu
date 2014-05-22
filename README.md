@@ -4,7 +4,9 @@ Eu is a wrapper around [request](https://github.com/mikeal/request) which can ca
 It's useful for consuming data, especially from HTTP/REST APIs with proper caching
 headers set.
 
-"Eu" means "gotten" in Fench.
+"Eu" means "gotten" in French.
+
+This library is heavily inspired from Kevin Swiber's [request-caching](https://github.com/kevinswiber/request-caching).
 
 ## Features
 
@@ -58,7 +60,7 @@ starting with that prefix. If you don't specify a prefix, you'll flush the entir
 
 ```javascript
 var prefix = 'yourapp:';
-var cache = new request.Cache(store, prefix);
+var cache = new Eu.Cache(store, prefix);
 
 cache.flush(cb); // only the 'yourapp:*' keys get flushed
 ```
@@ -72,12 +74,14 @@ To handle this you should construct the `Cache` with a `privateSuffix` String ar
 This suffix will be appended to the key when caching a private response.
 
 ```javascript
+var request = require('request');
 var prefix = 'yourapp:';
 var unique = req.currentUser._id; // or req.cookies['connect.sid']
 var privateSuffix = 'private:' + unique;
-var cache = new request.Cache(store, prefix, privateSuffix);
+var cache = new Eu.Cache(store, prefix, privateSuffix);
+var eu = new Eu(cache, request);
 
-requestCaching.get('http://some.url', {cache: cache}, function(err, res, body) {
+eu.get('http://some.url', function(err, res, body) {
 
 });
 ```
@@ -87,15 +91,17 @@ You will get an error if no `privateSuffix` was provided when caching a private 
 ### Custom TTL
 
 ```javascript
-var store = new request.RedisStore(redis);
+var request = require('request');
+var store = new Eu.RedisStore(redis);
 
 function myTtl(ttl) {
   return ttl * 1000; // cache it longer than the server told us to.
 }
 
-var cache = new request.Cache(store, null, null, myTtl);
+var cache = new Eu.Cache(store, null, null, myTtl);
+var eu = new Eu(cache, request);
 
-request('http://some.url', {cache: cache}, function(err, res, body) {
+eu.get('http://some.url', function(err, res, body) {
 
 });
 ```
