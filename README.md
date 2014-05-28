@@ -17,14 +17,13 @@ This library is heavily inspired from Kevin Swiber's [request-caching](https://g
 * Cache TTL is based on the `Expires` response header or `max-age` value in `Cache-Control`, but can be overridden.
 * Highly customizeable with sensible defaults.
 
-## Examples
+## Usage
 
-Below are some common use cases:
-
-### Create an instance of RequestCaching
+Usage is similar to `request.get`. The main difference is that you have
+to create an `Eu` instance:
 
 ```javascript
-var eu = new Eu(cache);
+var eu = new Eu(cache); // See below for details about how to create a cache
 
 eu.get('http://some.url', function(err, res, body) {
 });
@@ -35,7 +34,7 @@ eu.get('http://some.url', {json: true}, function(err, res, body) {
 
 ```
 
-You can choose between 2 caches:
+When you create a cache you can choose between 2 stores:
 
 ### In-memory cache
 
@@ -53,7 +52,15 @@ var store = new Eu.RedisStore(redis);
 var cache = new Eu.Cache(store);
 ```
 
-### Cache flushing
+You can also create a `NullCache`, which does nothing and doesn't require a store:
+
+### Null cache
+
+```javascript
+var cache = new Eu.NullCache();
+```
+
+### Cache key namespacing
 
 You should always provide a `prefix` which prefixes the key with the name of
 your app (or API). When you invoke `Cache.flush`, it will *only* flush the keys
@@ -83,10 +90,16 @@ var cache = new Eu.Cache(store, prefix, privateSuffix);
 
 You will get an error if no `privateSuffix` was provided when caching a private response.
 
-### Custom TTL
+### TTL
+
+By default, Eu will store entries in the cache with the TTL specified in the HTTP
+response (`max-age` or `expires` header).
+
+If the response doesn't specify a TTL, the response will be cached forever.
+
+You can override this by supplying your own `ttl` function:
 
 ```javascript
-var request = require('request');
 var store = new Eu.RedisStore(redis);
 
 function myTtl(ttl) {
