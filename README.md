@@ -29,7 +29,7 @@ var eu = new Eu(cache);
 eu.get('http://some.url', function(err, res, body) {
 });
 
-# Or pass in request options:
+// Or pass in request options:
 eu.get('http://some.url', {json: true}, function(err, res, body) {
 });
 
