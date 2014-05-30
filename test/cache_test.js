@@ -1,13 +1,8 @@
 var assert = require('assert');
 var Eu = require('..');
+var stores = require('./helpers/test_stores');
 
-var redis = require('redis').createClient();
-var redisStore = new Eu.RedisStore(redis);
-
-var LRU = require('lru-cache');
-var memoryStore = new Eu.MemoryStore(new LRU());
-
-[redisStore, memoryStore].forEach(function (store) {
+stores.forEach(function (store) {
   describe('Cache with ' + store.constructor.name, function () {
     beforeEach(store.flushAll);
 
