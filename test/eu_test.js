@@ -1,16 +1,11 @@
 var assert = require('assert');
 var http = require('http');
 var Eu = require('..');
-
-var LRU = require('lru-cache');
-var redis = require('redis').createClient();
+var stores = require('./helpers/test_stores');
 
 var port = 9090;
 
-var memoryStore = new Eu.MemoryStore(new LRU());
-var redisStore = new Eu.RedisStore(redis);
-
-[memoryStore, redisStore].forEach(function (store) {
+stores.forEach(function (store) {
   var paulsCache = new Eu.Cache(store, 'prefix:', ':private:paul');
   var lisasCache = new Eu.Cache(store, 'prefix:', ':private:lisa');
 
