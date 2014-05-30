@@ -29,7 +29,8 @@ stores.forEach(function (store) {
 
     it('Expires cached keys after TTL', function (cb) {
       var cache = new Eu.Cache(store);
-      cache.set('my-uri', false, 'my-value', 10, function (err) {
+      var ttl = 10;
+      cache.set('my-uri', false, 'my-value', ttl, function (err) {
         if (err) return cb(err);
         cache.get('my-uri', function (err, value) {
           if (err) return cb(err);
@@ -40,7 +41,7 @@ stores.forEach(function (store) {
               assert.equal(value, undefined);
               cb();
             });
-          }, 10);
+          }, ttl*2);
         });
       });
     });
