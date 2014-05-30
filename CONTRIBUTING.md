@@ -16,7 +16,8 @@ If you want to skip the tests using redis:
 
 ## Make a release
 
-Commit and push everything. Then:
+* Update version and date in `History.md`
+* Commit and push everything. Then:
 
     npm version NEW_VERSION
     npm publish
