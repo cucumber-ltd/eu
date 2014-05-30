@@ -10,6 +10,9 @@
     "type": "git",
     "url": "https://github.com/cucumber-ltd/eu.git"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "redis",
     "request",
