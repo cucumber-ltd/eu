@@ -97,6 +97,24 @@ var redisStore = new Eu.RedisStore(redis);
       });
     });
 
+    it("doesn't cache Cache-Control: no-cache", function (cb) {
+      http.createServer(function (req, res) {
+        var date = new Date();
+        res.writeHead(200, { 'Date': date.toUTCString(), 'Cache-Control': 'no-cache' });
+        res.end('Not Cachifiable!');
+      }).listen(++port, function () {
+        var eu = new Eu(paulsCache);
+        eu.get('http://localhost:' + port, {}, function (err, res) {
+          if (err) return cb(err);
+          paulsCache.get('http://localhost:' + port, function (err, val) {
+            if (err) return cb(err);
+            assert.equal(val, null);
+            cb();
+          });
+        });
+      });
+    });
+
     it("doesn't cache when response code is not 2xx", function (cb) {
       http.createServer(function (req, res) {
         var date = new Date();
