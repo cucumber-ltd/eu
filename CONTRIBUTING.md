@@ -19,6 +19,8 @@ If you want to skip the tests using redis:
 * Update version and date in `History.md`
 * Commit and push everything. Then:
 
-    npm version NEW_VERSION
-    npm publish
-    git push && git push --tags
+```
+npm version NEW_VERSION
+npm publish
+git push && git push --tags
+```
