@@ -23,6 +23,7 @@ Usage is similar to `request.get`. The main difference is that you have
 to create an `Eu` instance:
 
 ```javascript
+var Eu = require('eu');
 var eu = new Eu(cache); // See below for details about how to create a cache
 
 eu.get('http://some.url', function(err, res, body) {
