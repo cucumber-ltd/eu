@@ -156,9 +156,7 @@ stores.forEach(function (store) {
           res.end();
         } else {
           var date = new Date();
-          var expires = new Date(date.getSeconds() - 1);
-
-          res.writeHead(200, { 'Date': date.toUTCString(), 'Expires': expires.toUTCString(), 'ETag': 'the-etag' });
+          res.writeHead(200, { 'Date': date.toUTCString(), 'ETag': 'the-etag' });
           res.end('Cachifiable!');
         }
       }).listen(++port, function () {
@@ -187,9 +185,7 @@ stores.forEach(function (store) {
           res.end();
         } else {
           var date = new Date();
-          var expires = new Date(date.getSeconds() - 1);
-
-          res.writeHead(200, { 'Date': date.toUTCString(), 'Expires': expires.toUTCString(), 'Last-Modified': last_modified.toUTCString() });
+          res.writeHead(200, { 'Date': date.toUTCString(), 'Last-Modified': last_modified.toUTCString() });
           res.end('Cachifiable!');
         }
       }).listen(++port, function () {
