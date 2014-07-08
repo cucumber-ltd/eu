@@ -70,7 +70,7 @@ stores.forEach(function (store) {
       });
     });
 
-    it('serves from cache when withing max-age', function (cb) {
+    it('serves from cache when within max-age', function (cb) {
       var s = http.createServer(function (req, res) {
         var date = new Date();
         res.writeHead(200, { 'Date': date.toUTCString(), 'Cache-Control': 'max-age=300' });
