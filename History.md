@@ -1,12 +1,19 @@
-# [master](https://github.com/cucumber-ltd/eu/compare/v1.2.1...master)
+# [master](https://github.com/cucumber-ltd/eu/compare/v1.2.2...master)
+
+_add unreleased changes here_
+
+# [v1.2.2](https://github.com/cucumber-ltd/eu/compare/v1.2.0...v1.2.2) (2014-07-08)
+
+* Update deps
 
 # [v1.2.1](https://github.com/cucumber-ltd/eu/compare/v1.2.0...v1.2.1) (2014-07-08)
 
 * Add debugging
+* Fix caching bug: only set expiry date when explicitly sent by the server
 
 # [v1.2.0](https://github.com/cucumber-ltd/eu/compare/v1.1.1...v1.2.0) (2014-07-08)
 
-* Add option to force private caching (Matt Wynne)
+* Add option to force private caching
 
 # [v1.1.1](https://github.com/cucumber-ltd/eu/compare/v1.1.0...v1.1.1) (2014-05-30)
 
