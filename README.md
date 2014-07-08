@@ -122,6 +122,8 @@ var cache = new Eu.Cache(store, null, null, myTtl);
 
 Just set `DEBUG=eu` in your shell to see debug info.
 
+For extra verbose output (print response headers) set `DEBUG=eu,eu:*`
+
 ## How it works
 
 * All cacheable responses are cached, even if they are expired.
