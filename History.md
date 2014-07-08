@@ -2,7 +2,7 @@
 
 _Add unreleased changes here_
 
-# [v1.2.0](https://github.com/cucumber-ltd/eu/compare/v1.1.1...v1.2.0) (2014-05-30)
+# [v1.2.0](https://github.com/cucumber-ltd/eu/compare/v1.1.1...v1.2.0) (2014-07-08)
 
 * Add option to force private caching (Matt Wynne)
 
