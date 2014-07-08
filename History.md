@@ -1,6 +1,6 @@
 # [master](https://github.com/cucumber-ltd/eu/compare/v1.2.0...master)
 
-_Add unreleased changes here_
+* Add debugging
 
 # [v1.2.0](https://github.com/cucumber-ltd/eu/compare/v1.1.1...v1.2.0) (2014-07-08)
 
