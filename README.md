@@ -91,6 +91,14 @@ var cache = new Eu.Cache(store, prefix, privateSuffix);
 
 You will get an error if no `privateSuffix` was provided when caching a private response.
 
+For servers that should but don't add this header, you can force the request to be cached privately:
+
+```javascript
+cache.get(url, { private: true }, function (err, val) {
+  ...
+});
+```
+
 ### TTL
 
 By default, Eu will store entries in the cache with the TTL specified in the HTTP

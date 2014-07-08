@@ -52,6 +52,24 @@ stores.forEach(function (store) {
       });
     });
 
+    it('caches privately with option private: true', function (cb) {
+      http.createServer(function (req, res) {
+        var date = new Date().toUTCString();
+        res.writeHead(200, { 'Date': date, 'Cache-Control': 'max-age=300' });
+        res.end('Cachifiable!');
+      }).listen(++port, function () {
+        var eu = new Eu(paulsCache);
+        eu.get('http://localhost:' + port, { private: true }, function (err, res) {
+          if (err) return cb(err);
+          lisasCache.get('http://localhost:' + port, function (err, val) {
+            if (err) return cb(err);
+            assert.equal(val, undefined);
+            cb();
+          });
+        });
+      });
+    });
+
     it('serves from cache when withing max-age', function (cb) {
       var s = http.createServer(function (req, res) {
         var date = new Date();
