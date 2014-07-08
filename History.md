@@ -1,8 +1,8 @@
 # [master](https://github.com/cucumber-ltd/eu/compare/v1.2.0...master)
 
-__Add unreleased changes here__
+_Add unreleased changes here_
 
-# [v1.2.1](https://github.com/cucumber-ltd/eu/compare/v1.1.1...v1.2.0) (2014-05-30)
+# [v1.2.0](https://github.com/cucumber-ltd/eu/compare/v1.1.1...v1.2.0) (2014-05-30)
 
 * Add option to force private caching (Matt Wynne)
 
