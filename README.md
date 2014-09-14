@@ -1,8 +1,8 @@
 Eu is a wrapper around [request](https://github.com/mikeal/request) which can cache
 `HTTP GET` requests based on response headers - just like a browser does.
 
-It's useful for consuming data, especially from HTTP/REST APIs with proper caching
-headers set.
+It is used to lower latency when consuming data from HTTP/REST APIs that have proper caching
+headers.
 
 "Eu" means "gotten" in French.
 
@@ -10,12 +10,15 @@ This library is heavily inspired from Kevin Swiber's [request-caching](https://g
 
 ## Features
 
-* Redis or In-memory (LRU) storage. Easy to build new storage backends.
+* Multiple cache stores:
+  * Redis (built-in)
+  * In-memory based on [LRU](https://github.com/isaacs/node-lru-cache) (built-in)
+  * Medea (3rd party [eu-medea-store](https://github.com/medea/eu-medea-store) plugin by Kevin Swiber)
 * Supports both [public and private caching](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1).
 * Takes advantage of the `ETag` response header by using the `If-None-Match` request header.
 * Takes advantage of the `Last-Modified` response header by using the `If-Modified-Since` request header.
 * Cache TTL is based on the `Expires` response header or `max-age` value in `Cache-Control`, but can be overridden.
-* Highly customizeable with sensible defaults.
+* Highly customisable with sensible defaults.
 
 ## Usage
 
@@ -61,7 +64,7 @@ You can also create a `NullCache`, which does nothing and doesn't require a stor
 var cache = new Eu.NullCache();
 ```
 
-### Cache key namespacing
+### Cache key name spacing
 
 You should always provide a `prefix` which prefixes the key with the name of
 your app (or API). When you invoke `Cache.flush`, it will *only* flush the keys
@@ -99,6 +102,9 @@ cache.get(url, { private: true }, function (err, val) {
 });
 ```
 
+Eu will always look in the public cache first, and then in the private cache if there was no
+hit in the public cache.
+
 ### TTL
 
 By default, Eu will store entries in the cache with the TTL specified in the HTTP
@@ -123,13 +129,3 @@ var cache = new Eu.Cache(store, null, null, myTtl);
 Just set `DEBUG=eu` in your shell to see debug info.
 
 For extra verbose output (print response headers) set `DEBUG=eu,eu:*`
-
-## How it works
-
-* All cacheable responses are cached, even if they are expired.
-* The TTL for a cached entry uses the TTL from the response, but can be overridden.
-* If a cached response is not expired, returns it.
-* If a cached response is expired, issue request with `If-None-Match` value from cached response's `ETag`.
-  * If response is 304 (Not Modified), returned cached response.
-* Cacheable responses marked as private are cached with a private cache key.
-* Cache lookups look in public cache first, and then in the private cache.
