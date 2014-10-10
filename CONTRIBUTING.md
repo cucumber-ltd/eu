@@ -20,7 +20,5 @@ If you want to skip the tests using redis:
 * Commit and push everything. Then:
 
     npm outdated --depth 0 # See if you can upgrade something
-    git tag # Show versions
-    npm version NEW_VERSION
+    npm version [major|minor|patch]
     npm publish
-    git push && git push --tags

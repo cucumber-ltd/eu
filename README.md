@@ -105,12 +105,40 @@ cache.get(url, { private: true }, function (err, val) {
 Eu will always look in the public cache first, and then in the private cache if there was no
 hit in the public cache.
 
+### Cache entry expiry time
+
+Every time a response is cached, it is cached with an expiry time. This is a timestamp indicating
+how long the cache entry is valid for.
+
+When Eu finds an entry in the cache it will consult this timestamp to decide whether the
+entry is still valid - i.e. is the expiry time in the future.
+
+If it's valid, the response is returned immediately. If not, a HTTP request will be issued,
+setting the `If-None-Match` request header to the value of the cached `ETag` value,
+and the `If-Modified-Since` request header to the value of the cached `Last-Modified` value.
+
+If the server responds with `304 Not Modified` the cached response will be returned even
+though it is expired (the server has confirmed that even though it is expired, it hasn't changed).
+
+By default the expiry time is determined by either the `Cache-Control max-age` or `Expires` response
+header. If neither of these headers are set, or if you want to cache more aggressively than
+what they indicate, you can override this in the options passed to `eu.get`:
+
+```javascript
+function expiryTimeMillis() {
+  return 8640000000000000; // cache forever
+}
+cache.get(url, { expiryTimeMillis: expiryTimeMillis }, function (err, val) {
+  ...
+});
+```
+
 ### TTL
 
-By default, Eu will store entries in the cache with the TTL specified in the HTTP
-response (`max-age` or `expires` header).
+By default, Eu will store entries in the cache with the TTL equal to the cache
+expiry time (see above).
 
-If the response doesn't specify a TTL, the response will be cached forever.
+If the expiry time is undefined, the response will be cached forever.
 
 You can override this by supplying your own `ttl` function:
 

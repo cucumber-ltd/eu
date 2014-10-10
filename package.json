@@ -4,7 +4,8 @@
   "description": "Caching HTTP client",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha"
+    "test": "node_modules/.bin/mocha",
+    "postpublish": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,7 @@
   "author": "Cucumber Limited",
   "license": "MIT/X11",
   "dependencies": {
-    "debug": "^1.0.4",
+    "debug": "^2.0.0",
     "request": "^2.40.0"
   },
   "devDependencies": {
