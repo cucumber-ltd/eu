@@ -1,6 +1,6 @@
 {
   "name": "eu",
-  "version": "1.2.3",
+  "version": "1.3.0",
   "description": "Caching HTTP client",
   "main": "index.js",
   "scripts": {
