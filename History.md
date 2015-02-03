@@ -1,6 +1,8 @@
 # [master](https://github.com/cucumber-ltd/eu/compare/v1.2.2...master)
 
-_add unreleased changes here_
+* Better debugging of request/response headers
+* Allow overriding of cache entry expiry time
+* Link to [eu-medea-store](https://github.com/medea/eu-medea-store) ([#4](https://github.com/cucumber-ltd/eu/issues/4))
 
 # [v1.2.2](https://github.com/cucumber-ltd/eu/compare/v1.2.0...v1.2.2) (2014-07-08)
 

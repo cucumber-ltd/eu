@@ -156,4 +156,4 @@ var cache = new Eu.Cache(store, null, null, myTtl);
 
 Just set `DEBUG=eu` in your shell to see debug info.
 
-For extra verbose output (print response headers) set `DEBUG=eu,eu:*`
+For extra verbose output (print request and response headers) set `DEBUG=eu,eu:request`
