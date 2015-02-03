@@ -1,4 +1,4 @@
-# [v1.2.3](https://github.com/cucumber-ltd/eu/compare/v1.2.2...v1.2.3) (2015-02-03)
+# [v1.3.1](https://github.com/cucumber-ltd/eu/compare/v1.2.2...v1.3.1) (2015-02-03)
 
 * Better debugging of request/response headers
 * Allow overriding of cache entry expiry time
