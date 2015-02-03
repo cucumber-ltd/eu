@@ -1,10 +1,10 @@
-# [master](https://github.com/cucumber-ltd/eu/compare/v1.2.2...master)
+# [v1.2.3](https://github.com/cucumber-ltd/eu/compare/v1.2.2...v1.2.3) (2015-02-03)
 
 * Better debugging of request/response headers
 * Allow overriding of cache entry expiry time
 * Link to [eu-medea-store](https://github.com/medea/eu-medea-store) ([#4](https://github.com/cucumber-ltd/eu/issues/4))
 
-# [v1.2.2](https://github.com/cucumber-ltd/eu/compare/v1.2.0...v1.2.2) (2014-07-08)
+# [v1.2.2](https://github.com/cucumber-ltd/eu/compare/v1.2.1...v1.2.2) (2014-07-08)
 
 * Update deps
 
