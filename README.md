@@ -87,14 +87,14 @@ This suffix will be appended to the key when caching a private response.
 
 ```javascript
 var prefix = 'yourapp:';
-var unique = req.currentUser._id; // or req.cookies['connect.sid']
-var privateSuffix = 'private:' + unique;
+var unique = req.user.id; // or req.cookies['connect.sid']
+var privateSuffix = ':private:' + unique;
 var cache = new Eu.Cache(store, prefix, privateSuffix);
 ```
 
 You will get an error if no `privateSuffix` was provided when caching a private response.
 
-For servers that should but don't add this header, you can force the request to be cached privately:
+For servers that don't reply with a `Cache-Control: private` header, you can force the request to be cached privately:
 
 ```javascript
 cache.get(url, { private: true }, function (err, val) {
@@ -108,7 +108,7 @@ hit in the public cache.
 ### Cache entry expiry time
 
 Every time a response is cached, it is cached with an expiry time. This is a timestamp indicating
-how long the cache entry is valid for.
+how long the cache entry is valid for. (This is not the same as TTL - Time to Live. See next section).
 
 When Eu finds an entry in the cache it will consult this timestamp to decide whether the
 entry is still valid - i.e. is the expiry time in the future.
@@ -135,16 +135,15 @@ cache.get(url, { expiryTimeMillis: expiryTimeMillis }, function (err, val) {
 
 ### TTL
 
-By default, Eu will store entries in the cache with the TTL equal to the cache
+By default, Eu will store entries in the cache with the TTL (Time to Live) equal to the cache
 expiry time (see above).
 
-If the expiry time is undefined, the response will be cached forever.
+If the expiry time is undefined, the response will be cached forever, or until the cache discards it, using
+whatever expiry algorithm it uses, such as LIFO or FIFO.
 
-You can override this by supplying your own `ttl` function:
+You can override the default TTL by supplying your own `ttl` function:
 
 ```javascript
-var store = new Eu.RedisStore(redis);
-
 function myTtl(ttl) {
   return ttl * 1000; // cache it longer than the server told us to.
 }
@@ -156,4 +155,4 @@ var cache = new Eu.Cache(store, null, null, myTtl);
 
 Just set `DEBUG=eu` in your shell to see debug info.
 
-For extra verbose output (print request and response headers) set `DEBUG=eu,eu:request`
+For extra verbose output (print request and response headers) set `DEBUG=eu,eu:*`
