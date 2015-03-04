@@ -38,9 +38,9 @@ eu.get('http://some.url', {json: true}, function(err, res, body) {
 
 ```
 
-When you create a cache you can choose between 2 stores:
+A cache uses a _store_ to store cached responses:
 
-### In-memory cache
+### In-memory store
 
 ```javascript
 var LRU = require('lru-cache');
@@ -48,7 +48,7 @@ var store = new Eu.MemoryStore(new LRU());
 var cache = new Eu.Cache(store);
 ```
 
-### Redis cache
+### Redis store
 
 ```javascript
 var redis = require('redis').createClient();
