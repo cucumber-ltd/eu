@@ -202,6 +202,29 @@ stores.forEach(function (store) {
         });
       });
     });
+    it('caches privately for Cache-Control: max-age=300, no-transform, private', function (cb) {
+      http.createServer(function (req, res) {
+        var date = new Date().toUTCString();
+        res.writeHead(200, { 'Date': date, 'Cache-Control': 'max-age=300, no-transform, private' });
+        res.end('Cachifiable!');
+      }).listen(++port, function () {
+        var eu = new Eu(paulsCache);
+        eu.get('http://localhost:' + port, {}, function (err, res) {
+          if (err) return cb(err);
+          paulsCache.get('http://localhost:' + port, function (err, val) {
+            if (err) return cb(err);
+            assert.equal(val.response.body, 'Cachifiable!');
+            lisasCache.get('http://localhost:' + port, function (err, val) {
+              if (err) return cb(err);
+              assert.equal(val, undefined);
+              cb();
+            });
+          });
+        });
+      });
+    });
+
+
   });
 
 });
