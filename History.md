@@ -1,3 +1,7 @@
+# [v1.3.2](https://github.com/cucumber-ltd/eu/compare/v1.3.1...v1.3.2) (2015-03-05)
+
+* Fix splitting of cache-control header value ([#6](https://github.com/cucumber-ltd/eu/pull/6))
+
 # [v1.3.1](https://github.com/cucumber-ltd/eu/compare/v1.2.2...v1.3.1) (2015-02-03)
 
 * Better debugging of request/response headers
