@@ -24,7 +24,7 @@
   "author": "Cucumber Limited",
   "license": "MIT/X11",
   "dependencies": {
-    "debug": "^2.1.0",
+    "debug": "^2.1.2",
     "request": "^2.53.0",
     "request-debug": "^0.1.1"
   },
@@ -32,6 +32,6 @@
     "mocha": "^2.1.0",
     "lru-cache": "^2.5.0",
     "redis": "^0.12.1",
-    "hiredis": "^0.1.17"
+    "hiredis": "^0.2.0"
   }
 }
